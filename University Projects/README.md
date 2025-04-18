@@ -1,5 +1,5 @@
 # University Projects
-These are the different projects that I made during university.
+These are the various projects that I've worked on during university.
 ## First Semester (Year 1)
 - Assembly
 - Python
