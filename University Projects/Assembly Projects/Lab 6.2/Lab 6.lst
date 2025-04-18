@@ -1,0 +1,74 @@
+     1                                      bits 32 ; assembling for the 32 bits architecture
+     2                                  
+     3                                      ; declare the EntryPoint (a label defining the very first instruction of the program)
+     4                                      global start        
+     5                                  
+     6                                      ; declare external functions needed by our program
+     7                                      extern exit               ; tell nasm that exit exists even if we won't be defining it
+     8                                      import exit msvcrt.dll    ; exit is a function that ends the calling process. It is defined in msvcrt.dll
+     9                                                                ; msvcrt.dll contains exit, printf and all the other important C-runtime specific functions
+    10                                  
+    11                                      ; our data is declared here (the variables needed by our program)
+    12                                      segment data use32 class=data
+    13                                          ; ...
+    14 00000000 0200FFFF02000300F9-             s dw 2, -1, 2, 3, -7, 8, 4, 5, 6, 7, -3, -2, -1
+    14 00000009 FF0800040005000600-
+    14 00000012 0700FDFFFEFFFFFF   
+    15                                          l equ ($-s)/2
+    16 0000001A 00000000                        lung_max dd 0
+    17 0000001E 0000                            sfarsit dw 0
+    18 00000020 0000<rept>                      d times l dw 0
+    19                                      ; our code starts here
+    20                                      segment code use32 class=code
+    21                                          start:
+    22                                              ; ...
+    23 00000000 B90D000000                          mov ECX, l
+    24 00000005 E36C                                jecxz final
+    25 00000007 BE[00000000]                        mov ESI, s
+    26                                              
+    27 0000000C 66AD                                LODSW
+    28 0000000E 6689C3                              mov BX, AX
+    29 00000011 BA01000000                          mov EDX, 1
+    30                                              
+    31                                              while_1:
+    32 00000016 66AD                                    LODSW
+    33 00000018 6639C3                                  cmp BX, AX
+    34 0000001B 7F03                                    jg break
+    35 0000001D 42                                      inc EDX
+    36 0000001E EB21                                    jmp gata
+    37                                              
+    38                                              break:
+    39 00000020 3B15[1A000000]                          cmp EDX, [lung_max]
+    40 00000026 7E14                                    jle continue
+    41 00000028 BF0D000000                              mov EDI, l
+    42 0000002D 29CF                                    sub EDI, ECX
+    43 0000002F 47                                      inc EDI
+    44 00000030 893D[1E000000]                          mov [sfarsit], EDI
+    45 00000036 8915[1A000000]                          mov [lung_max], EDX
+    46                                                  
+    47                                                  continue:
+    48 0000003C BA01000000                                  mov EDX, 1
+    49                                              
+    50                                              gata:
+    51 00000041 6689C3                                  mov BX, AX
+    52 00000044 E2D0                                    loop while_1
+    53                                              
+    54 00000046 8B0D[1A000000]                      mov ECX, [lung_max]
+    55 0000004C E325                                jecxz final
+    56 0000004E 66A1[1E000000]                      mov AX, [sfarsit]
+    57 00000054 662B05[1A000000]                    sub AX, [lung_max]
+    58 0000005B 66BB0200                            mov BX, 2
+    59 0000005F 66F7EB                              imul BX
+    60 00000062 98                                  CWDE
+    61 00000063 BE[00000000]                        mov ESI, s
+    62 00000068 01C6                                add ESI, EAX
+    63 0000006A BF[20000000]                        mov EDI, d
+    64                                              
+    65                                              while_2:
+    66 0000006F 66A5                                    MOVSW
+    67 00000071 E2FC                                    loop while_2
+    68                                              
+    69                                              final:
+    70                                              ; exit(0)
+    71 00000073 6A00                                push    dword 0      ; push the parameter for exit onto the stack
+    72 00000075 FF15[00000000]                      call    [exit]       ; call exit to terminate the program

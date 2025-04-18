@@ -1,0 +1,89 @@
+     1                                  bits 32 ; assembling for the 32 bits architecture
+     2                                  
+     3                                  ; declare the EntryPoint (a label defining the very first instruction of the program)
+     4                                  global start        
+     5                                  
+     6                                  ; declare external functions needed by our program
+     7                                  extern exit, fopen, fprintf, fclose ; tell nasm that exit exists even if we won't be defining it
+     8                                  import exit msvcrt.dll    ; exit is a function that ends the calling process. It is defined in msvcrt.dll
+     9                                  import fopen msvcrt.dll   ; msvcrt.dll contains exit, printf and all the other important C-runtime specific functions
+    10                                  import fprintf msvcrt.dll
+    11                                  import fclose msvcrt.dll
+    12                                  
+    13                                  ; our data is declared here (the variables needed by our program)
+    14                                  segment data use32 class=data
+    15                                      ; ...
+    16 00000000 6C61626F7261746F72-         nume_fisier db "laborator 8.txt", 0
+    16 00000009 20382E74787400     
+    17 00000010 7700                        modalitate db "w", 0
+    18 00000012 257300                      format db "%s", 0
+    19 00000015 416E612C206172652E-         text db "Ana, are. 7? MERE:"
+    19 0000001E 20373F204D4552453A 
+    20                                      l equ $-text
+    21 00000027 00<rept>                    d times l+1 db 0
+    22 0000003A 00000000                    descriptor dd 0
+    23                                  ; our code starts here
+    24                                  segment code use32 class=code
+    25                                      start:
+    26                                          ; Se dau un nume de fisier si un text (definite in segmentul de date). Textul contine litere mici, litere mari, cifre si caractere speciale. Sa se inlocuiasca toate caracterele speciale din textul dat cu car
+    27 00000000 B912000000                      mov ECX, l
+    28 00000005 E378                            jecxz final
+    29                                          
+    30 00000007 BE[15000000]                    mov ESI, text
+    31 0000000C BF[27000000]                    mov EDI, d
+    32                                          while_text:
+    33 00000011 AC                                  lodsb
+    34 00000012 3C30                                cmp AL, '0'
+    35 00000014 7D05                                jge is_digit
+    36                                              
+    37                                              pune_x:
+    38 00000016 B058                                    mov AL, 'X'
+    39 00000018 AA                                      stosb
+    40 00000019 EB1B                                    jmp gata
+    41                                                  
+    42                                              is_digit:
+    43 0000001B 3C39                                    cmp AL, '9'
+    44 0000001D 7F03                                    jg is_big_letter
+    45 0000001F AA                                      stosb
+    46 00000020 EB14                                    jmp gata
+    47                                                  
+    48                                              is_big_letter:
+    49 00000022 3C41                                    cmp AL, 'A'
+    50 00000024 7CF0                                    jl pune_x
+    51 00000026 3C5A                                    cmp AL, 'Z'
+    52 00000028 7F03                                    jg is_small_letter
+    53 0000002A AA                                      stosb
+    54 0000002B EB09                                    jmp gata
+    55                                                  
+    56                                              is_small_letter:
+    57 0000002D 3C61                                    cmp AL, 'a'
+    58 0000002F 7CE5                                    jl pune_x
+    59 00000031 3C7A                                    cmp AL, 'z'
+    60 00000033 7FE1                                    jg pune_x
+    61 00000035 AA                                      stosb
+    62                                                  
+    63                                              gata:
+    64 00000036 E2D9                            loop while_text
+    65                                          
+    66 00000038 68[10000000]                    push dword modalitate
+    67 0000003D 68[00000000]                    push dword nume_fisier
+    68 00000042 FF15[00000000]                  call [fopen]
+    69 00000048 83C408                          add ESP, 4 * 2
+    70 0000004B 83F800                          cmp EAX, 0
+    71 0000004E 742F                            je final
+    72 00000050 A3[3A000000]                    mov [descriptor], EAX
+    73                                          
+    74 00000055 68[27000000]                    push dword d
+    75 0000005A 68[12000000]                    push dword format
+    76 0000005F FF35[3A000000]                  push dword [descriptor]
+    77 00000065 FF15[00000000]                  call [fprintf]
+    78 0000006B 83C40C                          add ESP, 4 * 3
+    79 0000006E 83F800                          cmp EAX, 0
+    80 00000071 740C                            je final
+    81                                          
+    82 00000073 FF35[3A000000]                  push dword [descriptor]
+    83 00000079 FF15[00000000]                  call [fclose]
+    84                                          final:
+    85                                          ; exit(0)
+    86 0000007F 6A00                            push    dword 0      ; push the parameter for exit onto the stack
+    87 00000081 FF15[00000000]                  call    [exit]       ; call exit to terminate the program

@@ -1,0 +1,47 @@
+     1                                  bits 32 ; assembling for the 32 bits architecture
+     2                                  
+     3                                  ; declare the EntryPoint (a label defining the very first instruction of the program)
+     4                                  global start        
+     5                                  
+     6                                  ; declare external functions needed by our program
+     7                                  extern exit, printf, baza8
+     8                                  import exit msvcrt.dll
+     9                                  import printf msvcrt.dll
+    10                                  
+    11                                  ; our data is declared here (the variables needed by our program)
+    12                                  segment data use32 class=data
+    13                                      ; ...
+    14 00000000 4E756D6172756C2025-         format_afisare db "Numarul %u este in baza 8 egal cu %s si reprezinta caracterul '%c' in codul ASCII", 0
+    14 00000009 75206573746520696E-
+    14 00000012 2062617A6120382065-
+    14 0000001B 67616C206375202573-
+    14 00000024 207369207265707265-
+    14 0000002D 7A696E746120636172-
+    14 00000036 6163746572756C2027-
+    14 0000003F 25632720696E20636F-
+    14 00000048 64756C204153434949-
+    14 00000051 00                 
+    15                                  ; our code starts here
+    16                                  segment code use32 class=code
+    17                                      start:
+    18                                          ; ...
+    19 00000000 B920000000                      mov ecx, 32
+    20                                          repeta:
+    21 00000005 89C8                                mov eax, ecx
+    22 00000007 50                                  push eax
+    23 00000008 E8(00000000)                        call baza8
+    24                                              
+    25 0000000D 51                                  push ecx
+    26 0000000E 57                                  push edi
+    27 0000000F 51                                  push ecx
+    28 00000010 68[00000000]                        push dword format_afisare
+    29 00000015 FF15[00000000]                      call [printf]
+    30 0000001B 83C410                              add esp, 16
+    31                                              
+    32 0000001E 41                                  inc ecx
+    33 0000001F 83F97E                              cmp ecx, 126
+    34 00000022 76E1                                jbe repeta
+    35                                              
+    36                                          ; exit(0)
+    37 00000024 6A00                            push    dword 0      ; push the parameter for exit onto the stack
+    38 00000026 FF15[00000000]                  call    [exit]       ; call exit to terminate the program

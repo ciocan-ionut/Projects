@@ -1,0 +1,40 @@
+     1                                  bits 32 ; assembling for the 32 bits architecture
+     2                                  
+     3                                  ; declare the EntryPoint (a label defining the very first instruction of the program)
+     4                                  global start        
+     5                                  
+     6                                  ; declare external functions needed by our program
+     7                                  extern exit               ; tell nasm that exit exists even if we won't be defining it
+     8                                  import exit msvcrt.dll    ; exit is a function that ends the calling process. It is defined in msvcrt.dll
+     9                                  extern scanf              ; msvcrt.dll contains exit, printf and all the other important C-runtime specific functions
+    10                                  import scanf msvcrt.dll
+    11                                  extern printf
+    12                                  import printf msvcrt.dll
+    13                                  
+    14                                  ; our data is declared here (the variables needed by our program)
+    15                                  segment data use32 class=data
+    16                                      ; ...
+    17 00000000 00000000                    a dd 0
+    18 00000004 00000000                    b dd 0
+    19 00000008 2564256400                  format_scan db "%d", "%d", 0
+    20 0000000D 257800                      format_print db "%x", 0
+    21                                  ; our code starts here
+    22                                  segment code use32 class=code
+    23                                      start:
+    24                                          ; Sa se citeasca de la tastatura doua numere a si b (in baza 10) si sa se calculeze a+b. Sa se afiseze rezultatul adunarii in baza 16.
+    25 00000000 68[04000000]                    push dword b
+    26 00000005 68[00000000]                    push dword a
+    27 0000000A 68[08000000]                    push dword format_scan
+    28 0000000F FF15[00000000]                  call [scanf]
+    29 00000015 83C40C                          add ESP, 4 * 3
+    30                                          
+    31 00000018 8B1D[00000000]                  mov EBX, [a]
+    32 0000001E 031D[04000000]                  add EBX, [b]
+    33                                          
+    34 00000024 53                              push EBX
+    35 00000025 68[0D000000]                    push dword format_print
+    36 0000002A FF15[00000000]                  call [printf]
+    37 00000030 83C408                          add ESP, 4 * 2
+    38                                          ; exit(0)
+    39 00000033 6A00                            push    dword 0      ; push the parameter for exit onto the stack
+    40 00000035 FF15[00000000]                  call    [exit]       ; call exit to terminate the program

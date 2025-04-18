@@ -1,0 +1,18 @@
+     1                                  bits 32 ; assembling for the 32 bits architecture
+     2                                  global baza8
+     3                                  segment data use32 class=data
+     4 00000000 <res 0000000A>              numar resb 10
+     5                                  segment code use32 class=code
+     6                                      baza8:
+     7 00000000 8B442404                        mov eax, [esp+4]
+     8 00000004 B108                            mov cl, 8
+     9 00000006 8D3D[09000000]                  lea edi, [numar + 9]
+    10 0000000C C60700                          mov byte [edi], 0
+    11                                          repeta:
+    12 0000000F F6F1                                div cl
+    13 00000011 80C230                              add dl, '0'
+    14 00000014 4F                                  dec edi
+    15 00000015 8817                                mov [edi], dl
+    16 00000017 83F800                              cmp eax, 0
+    17 0000001A 75F3                                jnz repeta
+    18 0000001C C20400                          ret 4
