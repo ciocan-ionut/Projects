@@ -1,0 +1,21 @@
+[2025-03-17 20:03:03] [info] Start Program:
+Path:"C:\POO Projects\Lab 2\x64\Debug\Lab 2.exe"
+Arguments:
+Working directory: "C:\POO Projects\Lab 2\"
+Modules: Selected: C:\POO Projects\Lab 2\x64\Debug\Lab 2.exe Excluded: 
+Sources: Selected: C:\POO Projects\Lab 2 Excluded: 
+Log Level: Normal
+Cover Children: 0
+Aggregate by file: 1
+Continue after C++ exception: 0
+Optimized build support: 0
+Export: Binary C:\Users\Ciocan Ionut\AppData\Local\Temp\fa52fkdg.mdn 
+Input coverage: 
+Unified diff: 
+Excluded line regular expressions: 
+Substitute pdb source paths: 
+
+[2025-03-17 20:03:03] [info] Module: C:\POO Projects\Lab 2\x64\Debug\Lab 2.exe is selected because it matches selected pattern: C:\POO Projects\Lab 2\x64\Debug\Lab 2.exe
+[2025-03-17 20:03:05] [info] ----------------------------------------------------
+[2025-03-17 20:03:05] [info] Coverage binary generated in file: C:\Users\Ciocan Ionut\AppData\Local\Temp\fa52fkdg.mdn
+[2025-03-17 20:03:05] [info] ----------------------------------------------------
