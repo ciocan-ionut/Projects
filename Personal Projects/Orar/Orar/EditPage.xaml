@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Orar.EditPage"
+             BackgroundColor="#8AAAE5">
+    <StackLayout VerticalOptions="CenterAndExpand" Spacing="20">
+        <CarouselView x:Name="CarouselEdit" Loop="False">
+            <CarouselView.ItemTemplate>
+                <DataTemplate>
+                    <StackLayout>
+                        <Label Text="{Binding Nume}" TextColor="White" FontSize="45" FontFamily="Montserrat Bold.otf#Montserrat Bold"
+                               HorizontalOptions="Center" VerticalOptions="Start"/>
+                        <StackLayout VerticalOptions="CenterAndExpand" Spacing="10" Padding="60">
+                            <Entry Text="{Binding Activitate1}" TextColor="White" FontSize="35" FontFamily="Montserrat Bold.otf#Montserrat Bold"
+                                   BackgroundColor="Transparent" Placeholder="..." PlaceholderColor="White"/>
+                            <Entry Text="{Binding Activitate2}" TextColor="White" FontSize="35" FontFamily="Montserrat Bold.otf#Montserrat Bold"
+                                   BackgroundColor="Transparent" Placeholder="..." PlaceholderColor="White"/>
+                            <Entry Text="{Binding Activitate3}" TextColor="White" FontSize="35" FontFamily="Montserrat Bold.otf#Montserrat Bold"
+                                   BackgroundColor="Transparent" Placeholder="..." PlaceholderColor="White"/>
+                            <Entry Text="{Binding Activitate4}" TextColor="White" FontSize="35" FontFamily="Montserrat Bold.otf#Montserrat Bold"
+                                   BackgroundColor="Transparent" Placeholder="..." PlaceholderColor="White"/>
+                            <Entry Text="{Binding Activitate5}" TextColor="White" FontSize="35" FontFamily="Montserrat Bold.otf#Montserrat Bold"
+                                   BackgroundColor="Transparent" Placeholder="..." PlaceholderColor="White"/>
+                            <Entry Text="{Binding Activitate6}" TextColor="White" FontSize="35" FontFamily="Montserrat Bold.otf#Montserrat Bold"
+                                   BackgroundColor="Transparent" Placeholder="..." PlaceholderColor="White"/>
+                        </StackLayout>
+                    </StackLayout>
+                </DataTemplate>
+            </CarouselView.ItemTemplate>
+        </CarouselView>
+        <Label x:Name="Toast" TextColor="White" FontFamily="Montserrat Bold.otf#Montserrat Bold" Opacity="0" HorizontalOptions="Center"/>
+        <Button Clicked="SaveData" BackgroundColor="Transparent" BorderColor="White" BorderWidth="1"
+                Text="Save" TextColor="White" FontFamily="Montserrat Bold.otf#Montserrat Bold"
+                HorizontalOptions="Center" Margin="0,0,0,20"/>
+    </StackLayout>
+</ContentPage>

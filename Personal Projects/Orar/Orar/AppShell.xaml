@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Shell xmlns:local="clr-namespace:Orar"
+       xmlns="http://xamarin.com/schemas/2014/forms"
+       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+       xmlns:fa="clr-namespace:FontAwesome"
+       x:Class="Orar.AppShell"
+       FlyoutBackgroundColor="#8AAAE5">
+
+    <Shell.FlyoutIcon>
+        <FontImageSource FontFamily="FAS"
+                         Glyph="{x:Static fa:FontAwesomeIcons.Bars}"
+                         Color="White"/>
+    </Shell.FlyoutIcon>
+
+    <Shell.FlyoutHeader>
+        <Grid BackgroundColor="#2296f3"
+                  HeightRequest="46"
+                  Padding="20,0,0,10">
+            <Label VerticalOptions="Center"
+                       HorizontalOptions="Start"
+                       Text="Home"
+                       TextColor="White"
+                       FontSize="36"
+                       FontFamily="Montserrat Bold.otf#Montserrat Bold"/>
+        </Grid>
+    </Shell.FlyoutHeader>
+
+    <Shell.ItemTemplate>
+        <DataTemplate>
+            <Grid ColumnDefinitions="20,*"
+                  Padding="20,5,0,10"
+                  ColumnSpacing="15">
+                <Image Grid.Column="0"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center"
+                       Source="{Binding Icon}"/>
+                <Label Grid.Column="1"
+                       VerticalOptions="Center"
+                       FontSize="26"
+                       TextColor="White"
+                       FontFamily="Montserrat Bold.otf#Montserrat Bold"
+                       Text="{Binding Title}"/>
+            </Grid>
+        </DataTemplate>
+    </Shell.ItemTemplate>
+
+    <FlyoutItem Title="Orar">
+        <FlyoutItem.Icon>
+            <FontImageSource FontFamily="FAS"
+                             Glyph="{x:Static fa:FontAwesomeIcons.Clock}"
+                             Color="White"/>
+        </FlyoutItem.Icon>
+        <Tab>
+            <ShellContent ContentTemplate="{DataTemplate local:MainPage}" />
+        </Tab>
+    </FlyoutItem>
+    <FlyoutItem Title="Edit">
+        <FlyoutItem.Icon>
+            <FontImageSource FontFamily="FAS"
+                     Glyph="{x:Static fa:FontAwesomeIcons.PenToSquare}"
+                     Color="White"/>
+        </FlyoutItem.Icon>
+        <Tab>
+            <ShellContent  ContentTemplate="{DataTemplate local:EditPage}" />
+        </Tab>
+    </FlyoutItem>
+</Shell>
