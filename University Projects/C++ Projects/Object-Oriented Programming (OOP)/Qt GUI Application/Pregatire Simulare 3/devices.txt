@@ -1,0 +1,6 @@
+Telefon,Samsung S25,2025,negru,4499.99
+Telefon,Samsung S25,2025,alb,4499.99
+Tableta,Samsung Tab S8,2023,negru,2999.99
+Tableta,iPad Pro,2023,alb,3999.99
+Laptop,Dell XPS 13,2023,galben,5999.99
+Telefon,iPhone 14,2023,rosu,4999.99

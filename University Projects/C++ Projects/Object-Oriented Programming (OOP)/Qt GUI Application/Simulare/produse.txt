@@ -1,0 +1,10 @@
+12,frigider,Samsung,10
+12,frigider,Beko,12.2
+29,aragaz,Beko,15
+40,cuptor,Samsung,13.7
+12,frigider,LG,12
+40,cuptor,Samsung,15
+57,masina de spalat,Samsung,20
+57,masina de spalat,Beko,25.5
+29,aragaz,Samsung,19
+57,masina de spalat,LG,22.7

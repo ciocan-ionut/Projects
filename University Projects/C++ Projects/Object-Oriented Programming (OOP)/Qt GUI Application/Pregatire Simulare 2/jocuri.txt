@@ -1,0 +1,11 @@
+Minecraft,30,PC,7
+Minecraft,30,Playstation,7
+Minecraft,30,Xbox,7
+Minecraft,30,Nintendo,7
+Doom:Eternal,50,PC,16
+Doom:Eternal,50,Playstation,16
+Doom:Eternal,50,Xbox,16
+Stardew Valley,20,PC,7
+Valorant,0,PC,12
+CS2,0,PC,12
+Hentai Simulator,16,PC,18

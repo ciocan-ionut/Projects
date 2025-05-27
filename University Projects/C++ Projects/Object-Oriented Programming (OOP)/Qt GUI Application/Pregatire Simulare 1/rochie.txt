@@ -1,0 +1,10 @@
+1,rochita,M,900,True
+2,rochie,S,1229.99,False
+3,rock,L,3499.99,True
+4,rocker,S,1999.99,False
+5,rochie de seara,M,1999.99,True
+6,rochita de seara,M,2999.99,True
+7,rochie de zi,L,979.99,False
+8,rochita de zi,M,3199.99,True
+9,rock de zi,L,4599.99,False
+10,rochie de vara,M,899.99,True
