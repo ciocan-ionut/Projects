@@ -1,2 +1,2 @@
 # C++ Projects
-These are the projects I made while learning C++
+These projects reflect the progress I made in improving my C++ skills
