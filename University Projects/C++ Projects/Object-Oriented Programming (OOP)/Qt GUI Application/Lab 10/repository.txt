@@ -1,0 +1,5 @@
+Sport0,Deadline urgent,dezvoltare,148
+Muzica1,Timp liber,munca,7
+Proiect2,Deadline urgent,dezvoltare,79
+Gatit3,Deadline urgent,recreativ,76
+Sport4,Timp liber,educatie,57

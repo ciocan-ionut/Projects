@@ -1,0 +1,7 @@
+Curs2,Cu prietenii,educatie,17
+A,B,C,20
+G,H,I,23
+A,B,C,45
+Curatenie0,Foarte important,recreativ,179
+Curs1,Timp liber,educatie,185
+Adauagt,B,C,123
