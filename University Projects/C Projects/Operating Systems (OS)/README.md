@@ -1,0 +1,2 @@
+# Operating Systems (OS)
+This folder contains the C projects and Shell scripts I made while studying OS. Throughout this subject, I learned how to effectively use a command line editor, create and manage processes and implementing synchronization mechanisms
