@@ -7,7 +7,7 @@
 ServerHandler::ServerHandler(ChatRepository& repository) : repository{ repository }
 {
 	userSocket = new QTcpSocket(this);
-	userSocket->connectToHost("100.108.219.85", 12345);
+	userSocket->connectToHost("IP_PLACEHOLDER", 12345);
 	connect(userSocket, &QTcpSocket::readyRead, this, &ServerHandler::onReadyRead);
 	createHandlers();
 }
