@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/MiChat">
+        <file>MiChatProfil.png</file>
+    </qresource>
+</RCC>
