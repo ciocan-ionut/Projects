@@ -1,0 +1,2 @@
+# Data Structures and Algorithms (DSA)
+This folder contains the C++ projects I made while studying DSA. Each project represents an implementation of a specific data structure or algorithm, built from scratch to better understand how they work internally
