@@ -1,0 +1,32 @@
+% nrAparitii(E:element, L:list, N:element)
+% (i, i, o) - determinist
+nrAparitii(_, [], 0) :- !.
+nrAparitii(E, [H | T], N) :-
+    E =:= H, !, nrAparitii(E, T, N1), N is N1 + 1.
+nrAparitii(E, [_ | T], N) :-
+    nrAparitii(E, T, N).
+
+% elimDup(L:list, R:list)
+% (i, o) - determinist
+elimDup([], []) :- !.
+elimDup([H | T], [H | R]) :-
+    nrAparitii(H, T, N), N =:= 0, !, elimDup(T, R).
+elimDup([H | T], R) :-
+    nrAparitii(H, T, N), N > 0, elimDup(T, R).
+
+% createPerechi(E:element, L:list, R:list)
+% (i, i, o) - determinist
+createPerechi(_, [], []) :- !.
+createPerechi(E, [H | T], [[E, H] | R]) :-
+    createPerechi(E, T, R).
+
+% createListCuPerechi(L:list, R:list)
+% (i, o) - determinist
+createListCuPerechi([], []) :- !.
+createListCuPerechi([H | T], [LR | RT]) :-
+    createPerechi(H, T, LR), createListCuPerechi(T, RT), append(LR, RT, R).
+
+% mainProblema(L:list, R:list)
+% (i, o) - determinist
+mainProblema(L, R) :-
+    elimDup(L, NewL), createListCuPerechi(NewL, R).

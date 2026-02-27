@@ -1,0 +1,8 @@
+PLF
+6. a. elimin(l1 l2...ln) = { [], l e vida
+			   { l1 O+ elimin(l2 l3...ln), nrAparitii(l1, l1 l2...ln) = 1
+			   { elimin(l2 l3...ln), nrAparitii(l1, l1 l2...ln) > 1
+
+   b. eliminMax(l1 l2...ln) = { [], l e vida
+			      { l1 O+ eliminMax(l2 l3...ln), max(l1 l2...ln) != l1
+			      { eliminMax(l2 l3...ln), max(l1 l2...ln) = l1

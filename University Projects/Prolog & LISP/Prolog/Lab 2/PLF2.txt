@@ -1,0 +1,12 @@
+PLF
+10. a. inserareElement(e, l1 l2...ln) = inserareElementAux(e, l1 l2...ln, 1)
+
+       inserareElementAux(e, l1 l2...ln, p) = { [], l e vida
+					      { l1 O+ e O+ inserareElementAux(e, l2 l3...ln, p+1), testarePozitie(p)
+					      { l1 O+ inserareElementAux(e, l2 l3...ln, p+1), altfel
+
+    b. inserareListaEterogena(l1 l2...ln) = inserareAux(l1 l2...ln, e)
+
+       inserareAux(l1 l2...ln, e) = { [], l e vida
+                                    { inserareElement(e, l1) O+ inserareAux(l2 l3...ln, e), daca l1 e lista
+				    { l1 O+ inserareAux(l2 l3...ln, e), daca l1 e numar
