@@ -6,3 +6,7 @@ These are the various projects that I've worked on during university.
 ## Second Semester (Year 1)
 - C
 - C++
+## Third Semester (Year 2)
+- Java
+- SQL (PostgreSQL, SQL Server)
+- Prolog / LISP
