@@ -6,3 +6,5 @@ It's a mobile app designed to help me check my school schedule more easily
 ## MiChat
 My first personal project, developed during university\
 It's a chat application I built for practice and fun, mainly to improve my skills and knowledge
+## Rocket Science
+This was a project made as an internship application
