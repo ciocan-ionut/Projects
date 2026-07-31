@@ -10,3 +10,8 @@ These are the various projects that I've worked on during university.
 - Java
 - SQL (PostgreSQL, SQL Server)
 - Prolog / LISP
+## Fourth Semester (Year 2)
+- Java
+- C#
+- Python
+- Web Programming Languages (HTML, CSS, JavaScript, PHP)
