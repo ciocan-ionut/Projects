@@ -1,0 +1,2 @@
+# Rocket Science
+This is a C++ project that I made as part of an internship application. It imposed more of a mathematical challenge than a programming one. It was fun trying to find the correct formula to solve the different stages.

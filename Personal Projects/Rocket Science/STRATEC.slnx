@@ -1,0 +1,7 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="STRATEC.vcxproj" Id="a382fbea-2bc7-4cfd-9405-70eb46a572a8" />
+</Solution>
