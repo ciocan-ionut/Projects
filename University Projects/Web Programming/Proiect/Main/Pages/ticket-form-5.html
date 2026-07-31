@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creează Ticket</title>
+    <link rel="stylesheet" href="../Styles/responsive.css">
+    <link rel="stylesheet" href="../Styles/ticket-form.css">
+    <link rel="stylesheet" href="../Styles/custom.css">
+</head>
+<body>
+    <header id="main-header">
+        <h1>Service Auto</h1>
+        <div id="carousel-container" style="width: 100%; margin-top: 30px;">
+            <button id="carousel-prev" class="carousel-btn">&lt;</button>
+            <img id="carousel-img" src="" alt="Slide">
+            <div class="carousel-overlay">
+                <span id="carousel-text"></span> - 
+                <a id="carousel-link" href="#">Detalii aici</a>
+            </div>
+            <button id="carousel-next" class="carousel-btn">&gt;</button>
+        </div>
+    </header>
+
+    <nav id="main-menu">
+        <ul>
+            <li><a href="management-page-5.html">Inapoi</a></li>
+            <li>
+                <a href="#">Formulare</a>
+                <ul class="sub-menu">
+                    <li><a href="ticket-form-5.html">Adaugă Ticket Nou</a></li>
+                    <li><a href="client-form.html">Adaugă Client Nou</a></li>
+                    <li><a href="feedback-form.html">Feedback</a></li>
+                </ul>
+            </li>
+            <li><a href="menu-sprites.html">Meniu Sprites</a></li>
+            <li><a href="dashboard.html">Dashboard</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <p>Vă rugăm să completați formularul cu atenție!</p>
+
+        <form action="#" class="custom-form">
+            <fieldset style="border: 0">
+                <legend class="form-group"><strong>Informații Vehicul și Service</strong></legend>
+
+                <div class="form-group">
+                    <label for="numar">Număr Înmatriculare:</label>
+                    <input type="text" id="numar" name="numar" maxlength="10" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="marca-select">Marcă:</label>
+                    <select id="marca-select" name="marca" required>
+                        <option value="">Alege Marca</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="model-select">Model:</label>
+                    <select id="model-select" name="model" disabled required>
+                        <option value="">Alege Modelul</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="an-fab">An Fabricație:</label>
+                    <input type="number" id="an-fab" name="an-fab" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="data-inspectie">Dată Inspecție ITP:</label>
+                    <input type="date" id="data-inspectie" name="data-inspectie" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Categorie Vehicul:</label>
+                    <select name="categorie" multiple size="3" required>
+                        <option value="turism">Autoturism mic</option>
+                        <option value="suv">SUV / 4x4</option>
+                        <option value="utilitara">Utilitară</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Tip Combustibil:</label>
+                    <label><input type="radio" name="comb" value="benzina" required> Benzină</label>
+                    <label><input type="radio" name="comb" value="motorina" required> Motorină</label>
+                </div>
+
+                <div class="form-group">
+                    <label for="cost">Cost maxim estimat (RON):</label>
+                    <input type="number" id="cost" name="cost" max="10000" step="50" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="poza-daune">Încarcă Poză Daune:</label>
+                    <input type="file" id="poza-daune" name="poza-daune" accept="image/*">
+                </div>
+
+                <div class="form-group">
+                    <label for="problema">Problemă reclamată de client:</label>
+                    <textarea id="problema" name="problema" rows="4" required></textarea>
+                    <span id="char-count">0/200</span>
+                </div>
+
+                <div class="form-actions">
+                    <button type="reset" class="btn btn-secondary">Curăță Formularul</button>
+                    <button type="submit" class="btn btn-primary">Salvează Ticket</button>
+                </div>
+            </fieldset>
+        </form>
+    </main>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="../Scripts/data.js"></script>
+    <script src="../Scripts/mainJQuery.js"></script>
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Înregistrare Client</title>
+    <link rel="stylesheet" href="../Styles/responsive.css">
+    <link rel="stylesheet" href="../Styles/ticket-form.css">
+    <link rel="stylesheet" href="../Styles/custom.css">
+</head>
+<body>
+    <header id="main-header">
+        <h1>Service Auto</h1>
+        <div id="carousel-container" style="width: 100%; margin-top: 30px;">
+            <button id="carousel-prev" class="carousel-btn">&lt;</button>
+            <img id="carousel-img" src="" alt="Slide">
+            <div class="carousel-overlay">
+                <span id="carousel-text"></span> - 
+                <a id="carousel-link" href="#">Detalii aici</a>
+            </div>
+            <button id="carousel-next" class="carousel-btn">&gt;</button>
+        </div>
+    </header>
+    
+    <nav id="main-menu">
+        <ul>
+            <li><a href="management-page-5.html">Inapoi</a></li>
+            <li>
+                <a href="#">Formulare</a>
+                <ul class="sub-menu">
+                    <li><a href="ticket-form-5.html">Adaugă Ticket Nou</a></li>
+                    <li><a href="client-form.html">Adaugă Client Nou</a></li>
+                    <li><a href="feedback-form.html">Feedback</a></li>
+                </ul>
+            </li>
+            <li><a href="menu-sprites.html">Meniu Sprites</a></li>
+            <li><a href="dashboard.html">Dashboard</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <form action="#" class="custom-form">
+            <fieldset style="border:0">
+                <legend class="form-group"><strong>Înregistrare Client Nou</strong></legend>
+                <div class="form-group">
+                    <label>Nume Complet:</label> <input type="text" name="nume" id="client-name">
+                </div>
+                <div class="form-group">
+                    <label>Parolă Cont:</label> <input type="password" name="parola" required>
+                </div>
+                <div class="form-group">
+                    <label>Abonează-te la Newsletter:</label> 
+                    <input type="checkbox" name="newsletter" value="da"> Da
+                    <input id="email" type="text" name="email" placeholder="Email" style="display: none; margin-top: 5px;">
+                </div>
+                <div class="form-group">
+                    <label>Gen:</label>
+                    <input type="radio" name="gen" value="m" required> Masculin
+                    <input type="radio" name="gen" value="f" required> Feminin
+                </div>
+                <button type="submit" class="btn btn-primary">Creează Cont</button>
+            </fieldset>
+        </form>
+    </main>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="../Scripts/data.js"></script>
+    <script src="../Scripts/mainJQuery.js"></script>
+</body>
+</html>

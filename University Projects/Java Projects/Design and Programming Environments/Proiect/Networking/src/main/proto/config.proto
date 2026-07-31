@@ -1,0 +1,88 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "networking.grpc";
+option csharp_namespace = "Networking.Grpc";
+
+service ProtoService {
+  rpc Login (LoginRequest) returns (EmptyResponse);
+  rpc Logout (LogoutRequest) returns (EmptyResponse);
+
+  // Aici înlocuim IObserver. Un stream înseamnă că serverul va putea
+  // trimite notificări (TableUpdated) către client în mod continuu.
+  rpc SubscribeToUpdates (EmptyRequest) returns (stream UpdateNotification);
+
+  rpc GetAllSwimmingTests (EmptyRequest) returns (SwimmingTestDTOList);
+  rpc GetSwimmingTestsForParticipant (ParticipantIdRequest) returns (SwimmingTestList);
+  rpc GetParticipants (SwimmingTestIdRequest) returns (ParticipantDTOList);
+
+  rpc AddParticipant (AddParticipantRequest) returns (EmptyResponse);
+  rpc UpdateParticipant (UpdateParticipantRequest) returns (EmptyResponse);
+}
+
+message ParticipantDTO {
+  int32 id = 1;
+  string name = 2;
+  int32 age = 3;
+  int32 swimmingTestCount = 4;
+}
+
+message SwimmingTest {
+  int32 id = 1;
+  string style = 2;
+  int32 distance = 3;
+}
+
+message SwimmingTestDTO {
+  int32 id = 1;
+  string style = 2;
+  int32 distance = 3;
+  int32 participantCount = 4;
+}
+
+message LoginRequest {
+  string username = 1;
+  string password = 2;
+}
+
+message LogoutRequest {
+  string username = 1;
+}
+
+message ParticipantIdRequest {
+  int32 participantId = 1;
+}
+
+message SwimmingTestIdRequest {
+  int32 swimmingTestId = 1;
+}
+
+message AddParticipantRequest {
+  string name = 1;
+  int32 age = 2;
+  repeated SwimmingTest tests = 3;
+}
+
+message UpdateParticipantRequest {
+  ParticipantDTO participant = 1;
+  repeated SwimmingTest tests = 2;
+}
+
+message SwimmingTestList {
+  repeated SwimmingTest tests = 1;
+}
+
+message SwimmingTestDTOList {
+  repeated SwimmingTestDTO tests = 1;
+}
+
+message ParticipantDTOList {
+  repeated ParticipantDTO participants = 1;
+}
+
+message EmptyRequest {}
+message EmptyResponse {}
+
+message UpdateNotification {
+  string message = 1;
+}

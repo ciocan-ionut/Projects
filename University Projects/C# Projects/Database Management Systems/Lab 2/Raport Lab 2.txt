@@ -1,0 +1,74 @@
+1. Explicația Problemelor de Concurență
+
+A. Dirty Read: Această problemă apare când o tranzacție (B) citește date care au fost modificate de o altă tranzacție (A), dar care nu au primit încă un COMMIT. Dacă Tranzacția A face ROLLBACK, Tranzacția B va fi operat cu date invalide (care nu au existat niciodată oficial în baza de date).
+
+[11:29:50] Transaction A: BEGIN TRANSACTION
+[11:29:50] Transaction A: Salariu actualizat la 10000 (ne-comis)
+[11:29:51] Transaction B: BEGIN TRANSACTION (READ UNCOMMITTED)
+[11:29:51] Transaction B: Valoarea citită este 10000
+[11:29:51] Transaction A: Rollback efectuat!
+
+Pentru a preveni citirile "murdare", nivelul de izolare trebuie crescut la cel puțin Read Committed. Astfel, Tranzacția B ar fi blocată până când A face commit sau rollback.
+
+[11:29:51] Transaction A: BEGIN TRANSACTION
+[11:29:51] Transaction A: Salariu actualizat la 10000 (ne-comis)
+[11:29:52] Transaction B: BEGIN TRANSACTION (Așteaptă după A)
+[11:29:53] Transaction A: Rollback efectuat!
+[11:29:53] Transaction B: Valoarea citită este 12000
+
+B. Non-Repeatable Read: Apare atunci când o tranzacție (A) citește același rând de două ori pe parcursul execuției sale, iar o altă tranzacție (B) modifică acel rând și face commit între cele două citiri ale lui A. Rezultatul este că Tranzacția A obține valori diferite pentru aceeași interogare.
+
+[11:30:34] Transaction A: BEGIN TRANSACTION (READ COMMITTED)
+[11:30:34] Transaction A: Prima citire - 10000
+[11:30:34] Transaction B: Actualizat la 12000 și comis
+[11:30:34] Transaction A: A doua citire - 12000
+
+Această problemă este prevenită de nivelul Repeatable Read, care menține lock-uri de citire pe rândurile accesate până la finalizarea tranzacției A, împiedicând tranzacția B să le modifice.
+
+[11:30:34] Transaction A: BEGIN TRANSACTION
+[11:30:34] Transaction A: Prima citire - 12000
+[11:30:34] Transaction B: BEGIN TRANSACTION (Blocat de A)
+[11:30:35] Transaction A: A doua citire - 12000
+[11:30:35] Transaction B: Actualizare finalizată (După ce A a terminat).
+
+C. Phantom Read: Se întâmplă când o tranzacție (A) execută o interogare care returnează un set de rânduri (ex. COUNT(*)), iar o tranzacție concurentă (B) inserează sau șterge rânduri care corespund criteriilor lui A, între două execuții ale aceleiași interogări din A. A doua oară, A va vedea rânduri "fantomă".
+
+[11:32:07] Transaction A: BEGIN TRANSACTION (REPEATABLE READ)
+[11:32:07] Transaction A: Prima numărătoare - 1
+[11:32:07] Transaction B: Șofer nou inserat
+[11:32:07] Transaction A: A doua numărătoare - 2
+
+Doar nivelul maxim de izolare, Serializable, previne Phantom Reads blocând întregul interval (range lock) acoperit de clauza WHERE, nepermițând inserări noi în acel domeniu.
+
+[11:32:07] Transaction A: BEGIN TRANSACTION
+[11:32:07] Transaction A: Prima numărătoare - 1
+[11:32:07] Transaction B: BEGIN TRANSACTION (Blocat de A)
+[11:32:08] Transaction A: A doua numărătoare - 1
+[11:32:08] Transaction B: Inserare finalizată cu succes (după ce A a terminat).
+
+D. Lost Update: Două tranzacții citesc aceeași valoare, efectuează calcule locale și scriu valoarea înapoi. Prima actualizare este suprascrisă și pierdută.
+
+E. Deadlock: Tranzacția A blochează Resursa 1 și cere Resursa 2. Tranzacția B blochează Resursa 2 și cere Resursa 1. Se creează un blocaj ciclic din care sistemul bazei de date (SQL Server) iese aruncând o eroare (Error 1205) și forțând un rollback pe una dintre tranzacții. Poate fi prevenită prin blocarea resurselor în aceeași ordine.
+
+2. Analiza Nivelurilor de Izolare 
+Alegerea nivelului de izolare dictează comportamentul tranzacțiilor concurente:
+1. Read Uncommitted: Permite Dirty Reads. Nu pune lock-uri, oferind performanță maximă dar consistență minimă. Un scenariu real este generarea unor rapoarte statistice pe volume masive de date (ex. estimarea numărului de vizitatori pe un site), unde performanța este critică, iar o marjă mică de eroare este perfect acceptabilă.
+
+2. Read Committed: Este nivelul implicit în majoritatea bazelor de date. Garantează că citești doar date comise, dar permite non-repeatable reads. Un scenariu real: Majoritatea aplicațiilor web obișnuite (ex. afișarea detaliilor unui produs într-un magazin online), unde datele trebuie să fie valide, dar o modificare survenită între două refresh-uri de pagină este normală. 
+
+3. Repeatable Read: Garantează că dacă citești un rând de două ori, valoarea rămâne aceeași pe parcursul tranzacției. Consumă mai multe resurse din cauza lock-urilor menținute. Un scenariu real este generarea unei facturi sau a unui raport financiar detaliat. Prețurile unitare citite la începutul calculului nu trebuie să fie modificate de un alt utilizator până la finalizarea și salvarea întregii facturi.
+
+4. Serializable: Execută tranzacțiile ca și cum ar fi secvențiale (una după alta). Elimină complet Phantom Reads, dar reduce drastic performanța sistemului și crește exponențial riscul de deadlocks. Un scenariu real în care este folosit sunt sistemele financiare critice, tranzacții bancare de mare valoare sau procese de închidere de lună contabilă, unde exactitatea matematică absolută primează în fața vitezei.
+
+3. Compromisuri între Performanță și Consistența Datelor 
+Relația dintre consistența datelor și performanță este invers proporțională. Cu cât creștem nivelul de izolare pentru a proteja consistența datelor (mergând spre Serializable), cu atât baza de date va trebui să folosească mai multe mecanisme de blocare (locking). Acest lucru forțează celelalte tranzacții să aștepte, reducând viteza de procesare a aplicației și concurența. Pe de altă parte, prioritizarea performanței absolute (Read Uncommitted) lasă sistemul vulnerabil la anomalii severe (date fantomă, actualizări pierdute), ceea ce poate duce la erori critice de business. Dezvoltatorul trebuie să aleagă nivelul minim strict necesar pentru procesul de business curent.
+
+4. Analiza Performanței Inserărilor 
+Testele au fost efectuate pentru inserarea a 5000 de înregistrări, folosind trei metodologii diferite și rulând testul de 3 ori.
+
+Concluzii de Performanță:
+Abordarea 1 (Auto-commit): A înregistrat cel mai slab timp (medie ~2817 ms). Deoarece generează o tranzacție separată și o operațiune fizică de scriere pe disc (I/O) pentru fiecare din cele 5000 de instrucțiuni, costul de overhead este masiv.
+
+Abordarea 3 (Tranzacție Unică) : A îmbunătățit considerabil performanța (~1434 ms), consolidând toate inserările  într-o singură confirmare pe disc. Totuși, blocarea resurselor pe termen lung și creșterea masivă a log-ului de tranzacții în memorie pot afecta alte procese din baza de date.
+
+Abordarea 2 (Commit în Loturi de 100) : S-a dovedit a fi varianta optimă, înregistrând cel mai bun timp mediu (~1325 ms). Această metodă oferă echilibrul perfect: reduce suficient numărul de accesări ale discului față de abordarea 1, dar menține tranzacțiile suficient de mici pentru a nu epuiza memoria și a nu bloca tabelele un timp îndelungat, depășind chiar și abordarea tranzacției unice.

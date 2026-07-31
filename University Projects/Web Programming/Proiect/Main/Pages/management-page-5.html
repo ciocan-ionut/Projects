@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestionare Service Auto</title>
+    <link rel="stylesheet" href="../Styles/responsive.css">
+    <link rel="stylesheet" href="../Styles/custom.css">
+</head>
+<body>
+    <header id="main-header">
+        <h1>Service Auto</h1>
+        <div id="carousel-container" style="width: 100%; margin-top: 30px;">
+            <button id="carousel-prev" class="carousel-btn">&lt;</button>
+            <img id="carousel-img" src="" alt="Slide">
+            <div class="carousel-overlay">
+                <span id="carousel-text"></span> - 
+                <a id="carousel-link" href="#">Detalii aici</a>
+            </div>
+            <button id="carousel-next" class="carousel-btn">&gt;</button>
+        </div>
+    </header>
+
+    <nav id="main-menu">
+        <ul>
+            <li><a href="management-page-5.html">Actualizează Pagina</a></li>
+            <li>
+                <a href="#">Formulare</a>
+                <ul class="sub-menu">
+                    <li><a href="ticket-form-5.html">Adaugă Ticket Nou</a></li>
+                    <li><a href="client-form.html">Adaugă Client Nou</a></li>
+                    <li><a href="feedback-form.html">Feedback</a></li>
+                </ul>
+            </li>
+            <li><a href="menu-sprites.html">Meniu Sprites</a></li>
+            <li><a href="dashboard.html">Dashboard</a></li>
+        </ul>
+    </nav>
+
+    <main class="layout-container">
+        <section class="info-section">
+            <h3>Reguli și Pași de Lucru</h3>
+            <ol type="I" class="rules-list">
+                <li><b>Reguli de protecție:</b>
+                    <ul>
+                        <li>Purtarea hainelor de lucru</li>
+                        <li>Purtarea mănușilor</li>
+                    </ul>
+                </li>
+                <li><b>Verificări:</b>
+                    <ol type="A">
+                        <li>Inspecția vizuală preliminară</li>
+                        <li>Testarea componentelor
+                            <ol type="1">
+                                <li>Verificare plăcuțe frână</li>
+                                <li>Verificare nivel ulei</li>
+                            </ol>
+                        </li>
+                    </ol>
+                </li>
+            </ol>
+        </section>
+        
+        <section class="tickets-section">
+            <h3>Lista Tickete Active</h3>
+            <p>Mai jos se află lista cu mașinile înregistrate.</p>
+            
+            <input type="text" id="live-search" placeholder="Căutare rapidă în tabel..." style="padding: 10px; width: 100%; margin-bottom: 15px;">
+            <div>
+                <input type="checkbox" name="status-filter" value="În Așteptare"> În Așteptare
+                <input type="checkbox" name="status-filter" value="În Lucru"> În Lucru
+                <input type="checkbox" name="status-filter" value="Finalizat"> Finalizat
+            </div>
+
+            <div class="stats-box">
+                <table class="data-table" id="vertical-table">
+                    <tr>
+                        <th>Număr Auto</th>
+                        <td>B-123-XYZ</td>
+                        <td>CJ-99-ABC</td>
+                    </tr>
+                    <tr>
+                        <th>Marca</th>
+                        <td>Dacia Logan</td>
+                        <td>Renault Clio</td>
+                    </tr>
+                    <tr>
+                        <th>Status</th>
+                        <td>În Așteptare</td>
+                        <td>Finalizat</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="table-responsive">
+                <table class="data-table" id="classic-table">
+                    <thead>
+                        <tr>
+                            <th>Număr</th>
+                            <th>Marcă & Model</th>
+                            <th>Status</th>
+                            <th>Problemă reclamată</th>
+                            <th>Mecanic Asignat</th>
+                            <th>Data Intrării</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="../Scripts/data.js"></script>
+    <script src="../Scripts/mainJQuery.js"></script>
+</body>
+</html>

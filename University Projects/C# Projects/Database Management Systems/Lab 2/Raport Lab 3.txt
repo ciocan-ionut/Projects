@@ -1,0 +1,79 @@
+Migrarea la ORM (Entity Framework Core) și Implementarea Connection Pooling
+
+1. Comparație de Cod: ADO.NET vs. Entity Framework Core
+Unul dintre obiectivele principale ale acestui laborator a fost refactorizarea aplicației pentru a utiliza un framework ORM și înlocuirea interogărilor SQL manuale. Acest proces a dus la o reducere semnificativă a codului de tip boilerplate.
+
+Înainte: În implementarea inițială, extragerea și maparea datelor necesitau gestionarea manuală a conexiunilor, parametrilor și citirea din SqlDataReader:
+
+string query = "SELECT * FROM Drivers WHERE TeamID = @TeamID";
+using (var connection = new SqlConnection(_connectionURL))
+{
+    connection.Open();
+    using (var cmd = new SqlCommand(query, connection))
+    {
+        cmd.Parameters.AddWithValue("@TeamID", teamId);
+        using (var reader = cmd.ExecuteReader())
+        {
+            while (reader.Read())
+            {
+                // ... procesare manuală a rezultatelor și instanțiere obiecte
+            }
+        }
+    }
+}
+
+După (Entity Framework Core):
+Utilizând API-urile de interogare ORM (Interogări LINQ), același rezultat este obținut mult mai concis:
+
+using (var context = new Formula1Context())
+{
+    var drivers = context.Drivers.Where(d => d.TeamID == teamId).ToList();
+}
+
+Migrarea a eliminat necesitatea de a scrie și menține șiruri de caractere cu interogări SQL, a redus la zero maparea manuală a rândurilor din baza de date către obiectele C# și a automatizat deschiderea / închiderea conexiunilor în majoritatea scenariilor. Numărul de linii de cod necesare pentru operațiile CRUD s-a redus cu aproximativ 60-70%, crescând totodată claritatea și mentenabilitatea codului.
+
+
+
+2. Rezultatele Măsurărilor de Performanță și Interpretarea Lor
+Am implementat și măsurat impactul utilizării unui pool de conexiuni, cerință esențială pentru a îmbunătăți performanța aplicației.
+
+Sarcina A: Overhead-ul Creării Conexiunilor 
+S-a creat un test care măsoară timpul necesar pentru crearea a 100 de conexiuni cu și fără pooling.
+
+Fără Pooling: Timp total = 609.37 ms | Timp mediu per conexiune = 6.0937 ms
+Cu Pooling: Timp total = 2.70 ms | Timp mediu per conexiune = 0.0270 ms
+
+Rezultatele arată o îmbunătățire masivă. Cu Connection Pooling activat, aplicația este de aproximativ 225 de ori mai rapidă la gestionarea celor 100 de conexiuni. Această diferență provine din faptul că, fără pooling, sistemul de operare și serverul de baze de date trebuie să negocieze TCP, să autentifice utilizatorul și să aloce resurse fizice pentru fiecare conexiune. Cu pooling, conexiunile sunt menținute active în memorie și refolosite, eliminând complet acest overhead imens.
+
+Sarcina B: Detectarea Scurgerilor de Conexiuni 
+S-a demonstrat ce se întâmplă când conexiunile sunt deschise, dar nu sunt închise corespunzător. Max Pool Size a fost configurat la 10 conexiuni.
+
+Așa cum se observă în loguri, aplicația a reușit să deschidă primele 10 conexiuni cu succes. Când s-a încercat deschiderea conexiunii cu numărul 11, pool-ul a fost epuizat, rezultând într-o excepție System.InvalidOperationException cu mesajul "Timeout expired...". Acest scenariu subliniază importanța gestionării corecte a resurselor, utilizând blocurile using pentru a elibera resursele.
+
+
+
+3. Comparație: Lazy Loading vs Eager Loading
+Am configurat relația părinte-copil pentru a folosi lazy loading implicit și am implementat un scenariu pentru a demonstra diferența de interogări SQL generate.
+
+Scenariul Lazy Loading: Au fost generate două interogări SQL distincte. Prima interogare a extras doar datele din tabelul Teams (SELECT TOP (1)... FROM Teams). A doua interogare (SELECT ... FROM Drivers WHERE TeamID = @EntityKeyValue1) a fost trimisă către baza de date abia în momentul în care am accesat proprietatea Drivers a obiectului Team în codul C#.
+
+Scenariul Eager Loading: S-a generat o singură interogare SQL masivă, care a folosit LEFT OUTER JOIN pentru a extrage simultan atât echipa, cât și toți șoferii asociați acesteia. Accesarea ulterioară a colecției Drivers nu a mai necesitat nicio comunicare cu baza de date, datele fiind deja în memorie.
+
+
+
+4. Avantaje și Dezavantaje ale ORM 
+Avantaje:
+o Productivitate crescută: Prin eliminarea interogărilor SQL manuale și a mapării rândurilor, timpul de dezvoltare a scăzut drastic.
+o Cod curat și Typesafe: Interogările LINQ sunt verificate la compilare, eliminând riscul de erori de sintaxă SQL care ar fi descoperite doar la runtime (ex: SQL Injection).
+o Abstracția bazei de date: Codul interacționează cu clase C# orientate pe obiecte, nu cu tabele relaționale brute.
+
+Dezavantaje:
+o Curba de învățare: Necesită înțelegerea conceptelor specifice EF Core (ex: Context, Tracking, Proxy-uri).
+o Complexitatea interogărilor (Problema N+1): Dacă nu se folosește corect Eager Loading, Lazy Loading-ul poate genera sute de interogări mici către baza de date, scăzând sever performanța.
+o Control redus asupra SQL-ului generat: Interogările complexe de tip Eager Loading (cum s-a văzut în loguri) pot deveni foarte greu de citit și pot fi sub-optimizate comparativ cu o interogare scrisă de un DBA cu experiență.
+
+
+
+5. Provocări Întâmpinate în Timpul Migrării 
+o Adaptarea UI-ului: Trecerea de la DataTables / DataSets specifice ADO.NET (care erau direct legate în UI) la lucrul cu liste de obiecte List<T> returnate de EF Core a necesitat rescrierea modului de populare a instanțelor de DataGridView.
+o Gestionarea Tranzacțiilor: Adaptarea operațiilor CRUD pentru a utiliza explicit context.Database.BeginTransaction(), asigurând astfel menținerea consistenței datelor în cazul în care un SaveChanges() ar eșua la jumătatea procesului.

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback Service</title>
+    <link rel="stylesheet" href="../Styles/responsive.css">
+    <link rel="stylesheet" href="../Styles/ticket-form.css">
+    <link rel="stylesheet" href="../Styles/custom.css">
+</head>
+<body>
+    <header id="main-header">
+        <h1>Service Auto</h1>
+        <div id="carousel-container" style="width: 100%; margin-top: 30px;">
+            <button id="carousel-prev" class="carousel-btn">&lt;</button>
+            <img id="carousel-img" src="" alt="Slide">
+            <div class="carousel-overlay">
+                <span id="carousel-text"></span> - 
+                <a id="carousel-link" href="#">Detalii aici</a>
+            </div>
+            <button id="carousel-next" class="carousel-btn">&gt;</button>
+        </div>
+    </header>
+    
+    <nav id="main-menu">
+        <ul>
+            <li><a href="management-page-5.html">Inapoi</a></li>
+            <li>
+                <a href="#">Formulare</a>
+                <ul class="sub-menu">
+                    <li><a href="ticket-form-5.html">Adaugă Ticket Nou</a></li>
+                    <li><a href="client-form.html">Adaugă Client Nou</a></li>
+                    <li><a href="feedback-form.html">Feedback</a></li>
+                </ul>
+            </li>
+            <li><a href="menu-sprites.html">Meniu Sprites</a></li>
+            <li><a href="dashboard.html">Dashboard</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <form action="#" class="custom-form">
+            <fieldset style="border:0">
+                <legend class="form-group"><strong>Feedback Service</strong></legend>
+                <div class="form-group">
+                    <label>Data vizitei:</label> <input type="date" name="data_vizita" required>
+                </div>
+                <div class="form-group">
+                    <label>Nota acordată:</label>
+                    <select id="nota" name="nota" required>
+                        <option value="">Alege o notă</option>
+                        <option value="5">5 - Excelent</option>
+                        <option value="4">4 - Bun</option>
+                        <option value="1">1 - Slab</option>
+                    </select>
+                </div>
+                <div id="improvements" class="form-group" style="display: none">
+                    <label>De ce nu v-a placut?</label>
+                    <textarea name="improvements" rows="3" placeholder="Spuneti-ne ce nu v-a placut..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Servicii utilizate (Multiple):</label>
+                    <select name="servicii" multiple size="3" required>
+                        <option value="mecanica">Mecanică</option>
+                        <option value="electrica">Electrică</option>
+                        <option value="vopsitorie">Vopsitorie</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Comentarii adiționale:</label>
+                    <textarea name="comentarii" rows="5" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Trimite Feedback</button>
+            </fieldset>
+        </form>
+    </main>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="../Scripts/data.js"></script>
+    <script src="../Scripts/mainJQuery.js"></script>
+</body>
+</html>

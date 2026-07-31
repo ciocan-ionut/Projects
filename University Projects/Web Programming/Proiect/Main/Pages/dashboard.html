@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Service</title>
+    <link rel="stylesheet" href="../Styles/responsive.css">
+    <link rel="stylesheet" href="../Styles/dashboard.css">
+    <link rel="stylesheet" href="../Styles/custom.css">
+</head>
+<body>
+    <header id="main-header">
+        <h1>Service Auto</h1>
+        <div id="carousel-container" style="width: 100%; margin-top: 30px;">
+            <button id="carousel-prev" class="carousel-btn">&lt;</button>
+            <img id="carousel-img" src="" alt="Slide">
+            <div class="carousel-overlay">
+                <span id="carousel-text"></span> - 
+                <a id="carousel-link" href="#">Detalii aici</a>
+            </div>
+            <button id="carousel-next" class="carousel-btn">&gt;</button>
+        </div>
+    </header>
+
+    <nav id="main-menu">
+        <ul>
+            <li><a href="management-page-5.html">Inapoi</a></li>
+            <li>
+                <a href="#">Formulare</a>
+                <ul class="sub-menu">
+                    <li><a href="ticket-form-5.html">Adaugă Ticket Nou</a></li>
+                    <li><a href="client-form.html">Adaugă Client Nou</a></li>
+                    <li><a href="feedback-form.html">Feedback</a></li>
+                </ul>
+            </li>
+            <li><a href="menu-sprites.html">Meniu Sprites</a></li>
+        </ul>
+    </nav>
+    
+    <main class="dashboard-container">
+        <div class="widget-card bg-blue">
+            <h3>Venituri Azi</h3>
+            <p class="widget-value">4.500 RON</p>
+        </div>
+        <div class="widget-card bg-green">
+            <h3>Reparații Finalizate</h3>
+            <p class="widget-value">12</p>
+        </div>
+        <div class="widget-card bg-orange">
+            <h3>Urgențe</h3>
+            <p class="widget-value">3</p>
+        </div>
+    </main>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="../Scripts/data.js"></script>
+    <script src="../Scripts/mainJQuery.js"></script>
+</body>
+</html>

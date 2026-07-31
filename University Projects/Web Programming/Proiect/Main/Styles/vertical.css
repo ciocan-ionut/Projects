@@ -1,0 +1,98 @@
+body { 
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    font-family: 'Arial', sans-serif;     
+    padding: 20px; 
+    background: #fff;  
+}
+
+#main-header {
+    width: 100%;
+}
+
+#main-header img { 
+    display: none; 
+}
+
+.layout-container {
+    display: flex;
+    flex: 1;
+}
+
+#main-menu {
+    width: 250px;
+    background: #2c3e50;
+    padding: 0;
+}
+
+#main-menu ul { 
+    list-style: none; 
+    padding: 0; 
+    margin: 0;
+}
+#main-menu ul li a {
+    display: flex; 
+    padding: 15px 15px;
+    color: white;
+    text-align: center;
+    text-decoration: none; 
+    border-bottom: 1px solid whitesmoke;
+    align-items: center;
+}
+#main-menu ul li a:hover { 
+    background: #3498db; 
+}
+
+#main-menu .sub-menu {
+    display: none;
+}
+
+#main-menu ul li:hover .sub-menu {
+    display: block;
+}
+
+.info-section { 
+    flex: 1; 
+}
+
+.tickets-section {
+    flex: 2;
+}
+
+.table-responsive {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.data-table {
+    width: 100%;
+    margin-top: 15px;
+}
+.data-table th { background: #333; color: white; padding: 10px; }
+.data-table td { padding: 10px; border-bottom: 1px solid #ccc; text-align: center; }
+
+.status.pending::after { content: " ⏳"; }
+.status.done::after { content: " ✅"; }
+
+main.layout-container, 
+main.dashboard-container,
+main { 
+    flex: 1;
+    box-sizing: border-box;
+    padding: 20px;
+}
+
+@media screen and (max-width: 768px) {
+    #main-menu {
+        width: 100%;
+    }
+    
+    main.layout-container, 
+    main.dashboard-container,
+    main {
+        flex-direction: column;
+        padding-left: 0;
+        margin-top: 20px; 
+    }
+}

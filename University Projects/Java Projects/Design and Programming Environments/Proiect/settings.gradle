@@ -1,0 +1,8 @@
+rootProject.name = 'Proiect_MPP'
+include 'Model'
+include 'Persistence'
+include 'Services'
+include 'Server'
+include 'Networking'
+include 'ClientFX'
+include 'RestClient'

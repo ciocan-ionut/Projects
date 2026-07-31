@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane minWidth="-Infinity" prefHeight="300.0" prefWidth="230.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.client.gui.LoginController">
+   <children>
+      <Label layoutX="77.0" layoutY="25.0" text="Login">
+         <font>
+            <Font name="System Bold" size="28.0" />
+         </font>
+      </Label>
+      <GridPane layoutX="14.0" layoutY="103.0">
+        <columnConstraints>
+          <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="95.0" minWidth="10.0" prefWidth="61.6" />
+          <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="143.4" minWidth="10.0" prefWidth="140.0" />
+        </columnConstraints>
+         <children>
+            <Label text="Username">
+               <GridPane.margin>
+                  <Insets />
+               </GridPane.margin></Label>
+            <Label text="Password" GridPane.rowIndex="1" />
+            <TextField fx:id="usernameField" GridPane.columnIndex="1">
+               <GridPane.margin>
+                  <Insets bottom="5.0" />
+               </GridPane.margin></TextField>
+            <PasswordField fx:id="passwordField" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <GridPane.margin>
+                  <Insets bottom="5.0" />
+               </GridPane.margin></PasswordField>
+            <Button fx:id="loginBtn" mnemonicParsing="false" onAction="#onLogin" text="Login" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+         </children>
+         <rowConstraints>
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" />
+         </rowConstraints>
+      </GridPane>
+   </children>
+</AnchorPane>

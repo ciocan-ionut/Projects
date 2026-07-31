@@ -1,0 +1,49 @@
+.input-error {
+    border: 2px solid red !important;
+    background-color: #ffe6e6;
+}
+
+#carousel-container {
+    position: relative;
+    width: 100%;
+    max-width: 600px;
+    overflow: hidden;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+#carousel-img {
+    width: 100%;
+    display: block;
+}
+.carousel-overlay {
+    position: absolute;
+    bottom: 0; background: rgba(0,0,0,0.6);
+    width: 100%; padding: 15px; color: white; text-align: center;
+}
+.carousel-overlay a { color: #3498db; font-weight: bold; }
+.carousel-btn {
+    position: absolute; top: 50%; transform: translateY(-50%);
+    background: rgba(0,0,0,0.5); color: white; border: none;
+    font-size: 24px; cursor: pointer; padding: 10px;
+}
+#carousel-prev { left: 10px; }
+#carousel-next { right: 10px; }
+
+th { cursor: pointer; position: relative; }
+th:hover { background-color: #555; }
+th.asc::after { content: " ▲"; color: #3498db; }
+th.desc::after { content: " ▼"; color: #e74c3c; }
+
+.collapsible-parent ul, .collapsible-parent ol {
+    display: none;
+    margin-left: 20px;
+}
+.collapsible-parent ul.show, .collapsible-parent ol.show {
+    display: block;
+}
+.toggle-icon {
+    cursor: pointer;
+    font-weight: bold;
+    color: #3498db;
+    user-select: none;
+}

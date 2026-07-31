@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meniu cu Sprites</title>
+    <link rel="stylesheet" href="../Styles/responsive.css">
+    <link rel="stylesheet" href="../Styles/custom.css">
+    <style>
+        .sprite-icon::before {
+            content: "";
+            display: inline-block;
+            width: 24px; 
+            height: 24px;
+            margin-right: 4px;
+            background-image: url('../Images/css-sprite.png'); 
+            background-repeat: no-repeat;
+        }
+        .icon-home::before { 
+            background-position: 0 0; 
+        }
+        .icon-settings::before {
+            background-position: -24px 0; 
+        }
+        .icon-user::before { 
+            background-position: -48px 0; 
+        }
+    </style>
+</head>
+<body>
+    <header id="main-header">
+        <h1>Service Auto</h1>
+        <div id="carousel-container" style="width: 100%; margin-top: 30px;">
+            <button id="carousel-prev" class="carousel-btn">&lt;</button>
+            <img id="carousel-img" src="" alt="Slide">
+            <div class="carousel-overlay">
+                <span id="carousel-text"></span> - 
+                <a id="carousel-link" href="#">Detalii aici</a>
+            </div>
+            <button id="carousel-next" class="carousel-btn">&gt;</button>
+        </div>
+    </header>
+
+    <nav id="main-menu">
+        <ul>
+            <li><a href="management-page-5.html" class="sprite-icon icon-home">Inapoi</a></li>
+            <li>
+                <a href="#" class="sprite-icon icon-user">Formulare</a>
+                <ul class="sub-menu">
+                    <li><a href="ticket-form-5.html">Adaugă Ticket Nou</a></li>
+                    <li><a href="client-form.html">Adaugă Client Nou</a></li>
+                    <li><a href="feedback-form.html">Feedback</a></li>
+                </ul>
+            </li>
+            <li><a href="dashboard.html" class="sprite-icon icon-settings">Dashboard</a></li>
+        </ul>
+    </nav>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="../Scripts/data.js"></script>
+    <script src="../Scripts/mainJQuery.js"></script>
+</body>
+</html>

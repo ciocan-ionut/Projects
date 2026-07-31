@@ -1,0 +1,50 @@
+body {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    background-color: white;
+}
+
+.dashboard-container {
+    display: flex;
+    padding: 20px;
+    gap: 20px;
+}
+
+.widget-card {
+    background: whitesmoke; 
+    padding: 20px; 
+    width: 30%;
+    border-radius: 8px;
+    text-align: center;
+    max-height: 400px;
+}
+.widget-value { 
+    font-size: 32px; 
+    font-weight: bold;
+    margin: 10px 0;
+    color: #2c3e50; 
+}
+.bg-blue { 
+    border-top: 5px solid #3498db; 
+}
+.bg-green { 
+    border-top: 5px solid #2ecc71; 
+}
+.bg-orange { 
+    border-top: 5px solid #e67e22; 
+}
+
+@media screen and (max-width: 768px) {
+    body {
+        padding: 5px;
+    }
+
+    .dashboard-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .widget-card {
+        width: 80%;
+    }
+}

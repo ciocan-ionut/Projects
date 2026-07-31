@@ -1,0 +1,85 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="ro">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Creează Ticket</title>
+</head>
+<body bgcolor="#e0ffff">
+
+    <center>
+        <h1>Adăugare Ticket Reparație</h1>
+    </center>
+
+    <table border="1" width="70%" align="center" bgcolor="#ffffff">
+        <tr>
+            <td>
+                <p>Vă rugăm să completați formularul cu atenție! Asigurați-vă că datele mașinii sunt <b>corecte</b>.</p>
+
+                <form action="management-page.html" target="_self">
+                    <fieldset>
+                        <legend><strong>Informații Vehicul și Service</strong></legend>
+
+                        <label>1. Număr Înmatriculare:</label>
+                        <input type="text" name="numar" value="" maxlength="10" size="15" title="Numărul de pe plăcuță">
+                        <br><br>
+
+                        <label>2. Marcă:</label>
+                        <input type="text" name="marca" value="Necunoscut" disabled>
+                        <br><br>
+
+                        <label>3. Model:</label>
+                        <input type="text" name="model" value="Standard" readonly size="20">
+                        <br><br>
+
+                        <label>4. Categorie Vehicul:</label><br>
+                        <select name="categorie" multiple size="3" title="Selectați categoriile potrivite">
+                            <option value="turism" selected>Autoturism mic</option>
+                            <option value="suv">SUV / 4x4</option>
+                            <option value="utilitara">Utilitară</option>
+                        </select>
+                        <br><br>
+
+                        <label>5. Tip Combustibil:</label>
+                        <input type="radio" name="comb" value="benzina" checked> Benzină
+                        <input type="radio" name="comb" value="motorina"> Motorină
+                        <input type="radio" name="comb" value="electric"> Electric
+                        <br><br>
+
+                        <label>6. Servicii solicitate:</label>
+                        <input type="checkbox" name="serv1" value="revizie" checked> Revizie periodică
+                        <input type="checkbox" name="serv2" value="diagnoza"> Diagnoză computerizată
+                        <input type="checkbox" name="serv3" value="mecanica"> Mecanică generală
+                        <br><br>
+
+                        <label>7. Cost maxim estimat (RON):</label>
+                        <input type="text" name="cost" value="500" size="10">
+                        <br><br>
+
+                        <label>8. Problemă reclamată de client:</label><br>
+                        <textarea name="problema" rows="4" cols="50" title="Descrieți problema...">Motorul scoate un zgomot la frânare...</textarea>
+                        <br><br>
+
+                        <label>9. Observații:</label><br>
+                        <textarea name="observatii" rows="2" cols="50" disabled>Zonă rezervată doar pentru personalul autorizat.</textarea>
+                        <br><br>
+
+                        <label>10. Prioritate lucrare:</label>
+                        <select name="prioritate">
+                            <option value="mica">Mică</option>
+                            <option value="medie" selected>Medie</option>
+                            <option value="mare">Urgență</option>
+                        </select>
+                        <br><br>
+
+                        <div align="center">
+                            <input type="reset" value="Curăță Formularul">
+                            <input type="submit" value="Salvează Ticket">
+                        </div>
+                    </fieldset>
+                </form>
+            </td>
+        </tr>
+    </table>
+
+</body>
+</html>

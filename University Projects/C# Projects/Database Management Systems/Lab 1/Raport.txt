@@ -1,0 +1,17 @@
+Titlu: Raport Proiect SGBD – Gestiune Echipe Formula 1
+
+1. Decizii de design
+Pentru acest proiect, am optat pentru o arhitectură simplă, organizată pe mai multe niveluri logice, pentru a separa logica de acces la date de interfața cu utilizatorul. 
+* Interfața Grafică (UI): Am folosit Windows Forms (`DashboardForm` și `DriverForm`). Pentru afișarea datelor, am utilizat controale de tip `DataGridView` legate la un `Typed DataSet` (`Formula1DataSet`). Această decizie a permis afișarea rapidă și filtrată a înregistrărilor copil (piloții) în funcție de echipa selectată (`FillByTeam`).
+* Modelul de Date (Domain): Am creat o clasă `Driver` care încapsulează atributele specifice unei înregistrări din baza de date, asigurând transmiterea ușoară a datelor între formulare.
+* Accesul la Date (DAO): Operațiunile tranzacționale de tip Insert, Update și Delete au fost izolate în clasa `DriverDAO`. Am evitat hardcodarea conexiunii folosind `ConfigurationManager`, ceea ce face aplicația portabilă. Toate interogările SQL utilizează parametri (`@Name`, `@Salary` etc.) pentru a proteja aplicația împotriva atacurilor de tip SQL Injection.
+
+2. Provocări întâmpinate și soluții
+* Sincronizarea interfeței după modificarea datelor: O provocare a fost actualizarea tabelului cu piloți din `DashboardForm` imediat după ce utilizatorul adăuga sau edita un pilot în `DriverForm`. Soluția a fost re-apelarea metodei `this.driversTableAdapter.FillByTeam()` imediat după închiderea ferestrei de dialog (pe `ShowDialog()`), forțând interfața să aducă datele proaspete din baza de date.
+* Validarea corectitudinii datelor la nivel de UI: Exista riscul ca utilizatorul să introducă date incomplete sau să seteze date de expirare a contractului din trecut, ceea ce ar fi generat erori SQL. Soluția a fost implementarea unor verificări (guard clauses) direct pe butonul "Salvează", ridicând un `MessageBox` informativ în caz de eroare, înainte ca aplicația să încerce parsarea și trimiterea la baza de date.
+* Selectarea rândurilor: Identificarea corectă a pilotului sau echipei selectate pe click-ul din DataGridView a necesitat preluarea corectă a ID-urilor. Am salvat instanțele obiectelor selectate (`selectedTeamID`, `selectedDriver`) ca variabile de instanță în clasa formularului, prevenind crash-urile prin verificarea lor (ex: `selectedTeamID == -1`) înainte de acțiunile CRUD.
+
+3. Ce ați învățat
+* Dezvoltarea acestui proiect mi-a consolidat cunoștințele despre interacțiunea dintre aplicațiile C# și bazele de date relaționale prin intermediul ADO.NET (clasele `SqlConnection`, `SqlCommand`).
+* Am înțeles în practică avantajul utilizării pattern-ului DAO, care a păstrat formularul principal curat, fără interogări SQL ascunse în spatele evenimentelor de click.
+* Am învățat cum se gestionează optim Foreign Key-urile la nivel vizual (încărcarea detaliilor în funcție de părintele selectat) și cum se folosește un `Typed DataSet` generat de Visual Studio pentru a accelera dezvoltarea proceselor de Read (Select).

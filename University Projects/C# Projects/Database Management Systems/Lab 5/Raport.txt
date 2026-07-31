@@ -1,0 +1,75 @@
+1. Strategia de migrare aleasă și rațiunea
+Pentru acest laborator am ales instrumentul de migrare integrat în ecosistemul .NET, Entity Framework Core (EF Core) Migrations.  
+
+Rațiunea: Deoarece aplicația demonstrativă este scrisă în C#, utilizarea EF Core permite o abordare Code-First. Acest lucru asigură o sincronizare perfectă între modelele de domeniu (clasele C#) și schema bazei de date. Spre deosebire de instrumente bazate exclusiv pe scripturi SQL (precum Flyway sau Liquibase clasic), EF Core Migrations generează automat codul C# pentru operațiile Up (aplicare) și Down (rollback), oferind în același timp un nivel ridicat de tipizare puternică și validare la compilare.  
+
+2. Documentație pas cu pas a execuției migrărilor
+Procesul de migrare a fost împărțit în trei etape logice pentru a izola modificările și a asigura trasabilitatea:
+	Pasul 1: Crearea Baseline-ului (Migrarea Inițială)
+		Acțiune: Rularea comenzii dotnet ef migrations add InitialCreate.
+
+		Context: Deoarece baza de date PostgreSQL conținea deja tabelele Departments și Employees populate cu date, executarea directă ar fi dus la o eroare de tip relation already exists.
+
+		Soluție: Am șters temporar conținutul metodei Up din fișierul generat și am rulat dotnet ef database update. Astfel, s-a creat tabelul de istoric __EFMigrationsHistory, marcând migrarea inițială ca fiind aplicată, fără a corupe datele existente.
+
+	Pasul 2: Evoluția Schemei
+		Acțiune: Crearea și aplicarea migrării SchemaEvolutionTasks.
+
+		Modificări aduse: S-a adăugat coloana Phone la angajați , s-a creat tabelul Projects cu Foreign Key către Departments , s-a modificat tipul coloanei Salary la numeric(12,2) , și s-au generat indexurile idx_employees_email și idx_employees_department pentru optimizarea performanței.
+
+	Pasul 3: Infrastructura Avansată
+		Acțiune: Crearea și aplicarea migrării AddConcurrencyAndSoftDelete.
+
+		Modificări aduse: Adăugarea coloanei Version (pentru concurență) și a coloanelor IsDeleted, DeletedAt, DeletedBy (pentru ștergerea soft).
+
+3. Explicația locking-ului optimist și rezultatele demonstrației
+Explicație: Locking-ul optimist este un pattern de control al concurenței care pornește de la premisa că tranzacțiile concurente vor intra rar în conflict. În loc să blocheze efectiv rândul în baza de date (cum face locking-ul pesimist), acesta utilizează o coloană de tip token (Version) pentru a valida dacă înregistrarea a fost alterată de la ultima citire.  
+
+Demonstrație și Rezultate:
+	1. Utilizatorul A și Utilizatorul B au citit simultan din baza de date înregistrarea angajatului cu ID-ul 1, amândoi primind Version = 1.
+
+	2. Utilizatorul A a mărit salariul și a salvat. Entity Framework a executat update-ul și a incrementat versiunea la 2 (Version = 2).
+
+	3. Utilizatorul B a încercat să modifice salariul trimițând update-ul cu condiția WHERE Id = 1 AND Version = 1.  
+
+	4. Deoarece versiunea din baza de date era deja 2, comanda de update a afectat 0 rânduri. EF Core a detectat acest lucru și a aruncat excepția DbUpdateConcurrencyException, semnalând conflictul. Excepția a fost prinsă și i s-a afișat utilizatorului un mesaj corespunzător.  
+
+4. Comparație Ștergere Soft vs. Hard și Compromisuri
+Ștergerea din baza de date se poate realiza prin două metode, fiecare având compromisuri distincte:  
+
+Caracteristică		Ștergere Hard (DELETE)		Ștergere Soft (UPDATE IsDeleted=true)
+
+Definiție		Elimină definitiv rândul        Marchează rândul ca fiind șters,
+			fizic din tabel.		lăsându-l în BD.
+
+Recuperarea Datelor	Imposibilă (necesită restore 	Simplă. Funcționează ca un
+			din backup).			"Recycle Bin" (Restaurare).
+
+Performanță & Stocare	Eliberează spațiu pe disc, 	Consumă spațiu în continuu. 
+			menține tabelele mici și 	Necesită indexuri filtrate pentru 
+			interogările rapide.		a nu încetini baza de date.
+
+Integritate & Audit	Distruge istoricul. Anulează 	Păstrează istoricul și trasabilitatea 
+			legăturile prin Foreign Keys.	(Audit trail: cine a șters și când). 
+							Relațiile FK rămân intacte.
+
+Complexitatea Codului	Scăzută.			Ridicată. Necesită implementarea unor 
+							filtre globale de interogare (ex: HasQueryFilter) 
+							pentru a ascunde datele implicit.
+
+Compromisul principal: Ștergerea soft sacrifică performanța optimă și spațiul de stocare în favoarea securității datelor, recuperabilității și cerințelor stricte de audit.  
+
+5. Lecții învățate și best practices   
+Filtre Globale: Folosirea HasQueryFilter în EF Core este vitală pentru ștergerea soft, prevenind astfel "scurgerile" de date șterse în aplicația client. Pentru vederea de administrator, folosirea extensiei .IgnoreQueryFilters() este extrem de eficientă.  
+
+Verificarea Migrărilor: Este o practică bună de a inspecta întotdeauna codul generat de instrumentele ORM în metoda Up() înainte de a aplica update-ul pe baza de date, pentru a preveni pierderile de date (ex. trunchierea coloanelor).
+
+Override pe SaveChanges: Implementarea ștergerii soft și a actualizării metadatelor de audit se face cel mai bine prin suprascrierea metodei SaveChanges din DbContext, centralizând logica de business la un singur nivel inferior.
+
+6. Provocări întâmpinate
+Cea mai mare provocare a fost aplicarea migrărilor generate de un model nou peste o structură fizică deja existentă în PostgreSQL.
+
+Eroarea tabelelor duplicate: 
+	La prima rulare a apărut eroarea 42P07: relation already exists pentru tabele. Aceasta a fost rezolvată prin tehnica de baseline migration (golirea metodei Up a migrării inițiale).
+
+	Eroarea indexurilor duplicate: O situație similară a apărut la Sarcina E, unde PostgreSQL a raportat că indexul idx_employees_email exista deja. Acest conflict a fost rezolvat prin curățarea manuală a bazei de date (executarea DROP INDEX IF EXISTS) înaintea continuării migrării prin intermediul terminalului C#.  

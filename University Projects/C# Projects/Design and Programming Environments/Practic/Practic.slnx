@@ -1,0 +1,9 @@
+<Solution>
+  <Project Path="ClientGUI/ClientGUI.csproj" Id="f7ebbe9e-bcee-4020-bade-51e817a5f8b8" />
+  <Project Path="Domain/Domain.csproj" />
+  <Project Path="Network/Network.csproj" />
+  <Project Path="Persistence/Persistence.csproj" />
+  <Project Path="Server/Server.csproj" />
+  <Project Path="Service/Service.csproj" />
+  <Project Path="WebAPI/WebAPI.csproj" Id="4c95cf8c-8d4e-4b72-b920-44d36267ae5b" />
+</Solution>
